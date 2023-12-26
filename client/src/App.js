@@ -54,18 +54,21 @@ function App() {
 
   //Update Feature
   const displayInfo=() => {
+    let UpdateGDP;
+    if(URegional && USubRegion && UCountryCode &&UGrowth){
+      if(UYear>2000 && UYear<2100){
+        UpdateGDP = {
+          regional : URegional,
+          year : UYear,
+          growth: UGrowth,
+          subregion: USubRegion,
+          countrycode: UCountryCode
+        }
+      }
 
-    //this object will be send into backend as the req.body;
-    const UpdateGDP = {
-      regional : URegional,
-      year : UYear,
-      growth: UGrowth,
-      subregion: USubRegion,
-      countrycode: UCountryCode
     }
-    console.log(UpdateGDP);
-    
-    fetch('http://localhost:8000/update', {
+    if(UpdateGDP !== undefined){
+      fetch('http://localhost:8000/update', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json', // Specify the content type as JSON
@@ -74,6 +77,9 @@ function App() {
     })
     .then(response => response.json())
     .then(setUpdated(true))
+    }
+    //this object will be send into backend as the req.body;
+    console.log("Please Fill all the Requirements");
   }
 
 
