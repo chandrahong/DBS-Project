@@ -1,6 +1,7 @@
 import './App.css';
 import {useEffect, useState} from 'react';
 import Select from 'react-select'
+import {Toaster, toast} from 'sonner'
 
 
 
@@ -57,6 +58,7 @@ function App() {
     let UpdateGDP;
     if(URegional && USubRegion && UCountryCode &&UGrowth){
       if(UYear>2000 && UYear<2100){
+        //this object will be send into backend as the req.body;
         UpdateGDP = {
           regional : URegional,
           year : UYear,
@@ -65,8 +67,8 @@ function App() {
           countrycode: UCountryCode
         }
       }
-
     }
+    
     if(UpdateGDP !== undefined){
       fetch('http://localhost:8000/update', {
       method: 'POST',
@@ -77,9 +79,12 @@ function App() {
     })
     .then(response => response.json())
     .then(setUpdated(true))
+    .then(toast.success("Dataset Updated"))
     }
-    //this object will be send into backend as the req.body;
-    console.log("Please Fill all the Requirements");
+
+    if(!URegional || !UYear || !UGrowth || !UCountryCode || !USubRegion){
+      toast.error("Please Fill all the Requirements")
+    }
   }
 
 
@@ -92,13 +97,13 @@ function App() {
     .then(
         fetch(`http://localhost:8000/gdpyear?year=${year}`)
       .then(response => response.json())
-      .then(data=>setGdpData(data))
+      .then(toast.success("Dataset Deleted."))
     )
   }
 
   return (
     <div className="App">
-      
+      <Toaster />
       <div className="rowform">
         <div className='columnform th'>RegionalMember</div>
         <div className='columnform th'>Year</div>
@@ -114,7 +119,6 @@ function App() {
         <input className="box" type="text" onChange={(event)=>{setUSubRegion(event.target.value)}}name="Subregion" />
         <input className="box" type="text" onChange={(event)=>{setUCountryCode(event.target.value)}} name="CountryCode" />
         <button className="btn" onClick={displayInfo}>Update</button>
-        {updated ? <div className="update">Update Succeeded</div> : " "}
       </div>
 
       <div className="userinteraction">
