@@ -122,16 +122,16 @@ function App() {
         <button className="btn" onClick={findCountry}>Find Country!</button>
         <Select className="selectbar" options={yearoption} onChange={handleChange} placeholder="Year" />
       </div>
+      <div className="content">
+        <div className="row">
+          <div className='column th'>RegionalMember</div>
+          <div className='column th'>Year</div>
+          <div className='column th'>GDP_Growth</div>
+          <div className='column th'>SubRegion</div>
+          <div className='column th'>Country Code</div>
+        </div>
 
-      <div className="row">
-        <div className='column th'>RegionalMember</div>
-        <div className='column th'>Year</div>
-        <div className='column th'>GDP_Growth</div>
-        <div className='column th'>SubRegion</div>
-        <div className='column th'>Country Code</div>
-      </div>
-      
-       {gdpdata.map(item=>{
+        {gdpdata.map(item=>{
         return(
             <div className="row">
                 <div className="column">{item.RegionalMember}</div>
@@ -143,6 +143,7 @@ function App() {
             </div>
         )
        })}
+      </div>
     </div>
   );
 }
